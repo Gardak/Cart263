@@ -15,6 +15,8 @@ window.onload = setup;
 let pixelNum = 1000;
 let pixel;
 
+let rotation = 0;
+
 function setup() {
 
   for (let i = 0; i < pixelNum; i++) {
@@ -24,6 +26,7 @@ function setup() {
 
     pixel.addEventListener('mouseover', paint);
     pixel.addEventListener('click', removePixel);
+    pixel.addEventListener('keydown', rotatePixel);
     document.body.appendChild(pixel);
   }
 
