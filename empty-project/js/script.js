@@ -23,6 +23,7 @@ function setup() {
     pixel.setAttribute('class', 'pixel');
 
     pixel.addEventListener('mouseover', paint);
+    pixel.addEventListener('click', removePixel);
     document.body.appendChild(pixel);
   }
 
@@ -40,6 +41,12 @@ function paint(e) {
     pixel.style.backgroundColor = `rgb(${r} ,${g},${b})`;
 
     setTimeout(resetPixel, 2000, pixel);
+}
+
+function removePixel(e) {
+  let pixel = e.target;
+
+  pixel.style.opacity = '0';
 }
 
 function resetPixel(pixel) {
