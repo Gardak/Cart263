@@ -33,8 +33,11 @@ function paint(e) {
 
     let pixel = e.target;
 
+    let r = Math.random() * 255;
+    let g = Math.random() * 255;
+    let b = Math.random() * 255;
 
-    pixel.style.backgroundColor = `white`;
+    pixel.style.backgroundColor = `rgb(${r} ,${g},${b})`;
 
     setTimeout(resetPixel, 2000, pixel);
 }
