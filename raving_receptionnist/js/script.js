@@ -1,3 +1,9 @@
+
+
+// Raving receptionnist Redux
+// By Alex Lorrain
+// Teacher : Pippin Bar
+
 "use strict";
 
 let $span = $('span');
