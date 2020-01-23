@@ -4,6 +4,12 @@ body {
   margin-top: 50px;
 }
 
+h1 {
+  color : black;
+  font-style: Courier, monospace;
+  margin-top: 70px;
+}
+
 .redacted {
   background-color: black;
   color : transparent;
@@ -12,4 +18,9 @@ body {
 .revealed {
   background-color: transparent;
   color : red;
+}
+
+.found {
+  background-color: transparent;
+  color : limegreen;
 }

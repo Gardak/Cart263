@@ -6,23 +6,29 @@
 
 "use strict";
 
-let $span = $('span');
+let $spans;
+
+let secretFound = 0;
+const secretTotal = 9;
+
+const intervalTime = 500;
+const riskRevealed = 0.1;
 
 $(document).ready(setup);
 
 function setup() {
   console.log('setup');
+  $spans = $('span');
+  setInterval(update, intervalTime);
 
-  setInterval(update, 500);
-
-  $span.on('click' , spanClick);
+  $spans.on('click' , spanClick);
 
 }
 
 function update() {
   console.log('Udated!');
 
-  $span.each(updateSpan);
+  $spans.each(updateSpan);
 
 }
 
@@ -30,7 +36,7 @@ function updateSpan() {
   console.log('Updating span');
 
   let riskRedacted = Math.random();
-  if (riskRedacted < 0.1) {
+  if (riskRedacted < riskRevealed) {
     $(this).removeClass('redacted');
     $(this).addClass('revealed');
   }
