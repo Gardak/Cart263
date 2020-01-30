@@ -21,6 +21,6 @@ h1 {
 }
 
 .found {
-  background-color: transparent;
-  color : limegreen;
+  background-color: green;
+  color : black;
 }

@@ -20,14 +20,14 @@ function setup() {
   console.log('setup');
 
   $spans = $('span');
-  $secret = $('secret');
+  $secret = $('.secret');
   secretsTotal = $('.secret').length;
   console.log(secretsTotal);
 
   setInterval(update, intervalTime);
 
   $spans.on('click' , spanClick);
-  $secret.on('mouseover', )
+  $secret.on('mouseover', secretFound);
 }
 
 function update() {
@@ -40,6 +40,9 @@ function update() {
 
 function secretFound(){
   $(this).addClass('.found');
+  $(this).removeClass('.secret');
+  secretsFound++;
+  $(this).off('mouseover');
 }
 
 function updateSpan() {
