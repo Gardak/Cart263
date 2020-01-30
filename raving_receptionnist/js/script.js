@@ -6,7 +6,7 @@
 
 "use strict";
 
-let $spans;
+let $redacted;
 let $secret;
 let secretsFound = 0;
 let secretsTotal;
@@ -19,28 +19,28 @@ $(document).ready(setup);
 function setup() {
   console.log('setup');
 
-  $spans = $('span');
+  $redacted = $('.redacted');
   $secret = $('.secret');
   secretsTotal = $('.secret').length;
   console.log(secretsTotal);
 
   setInterval(update, intervalTime);
 
-  $spans.on('click' , spanClick);
+  $redacted.on('click' , spanClick);
   $secret.on('mouseover', secretFound);
 }
 
 function update() {
   console.log('Udated!');
 
-  $spans.each(updateSpan);
+  $redacted.each(updateSpan);
   $('.secretsTotal').text(secretsTotal);
   $('.secretsFound').text(secretsFound);
 }
 
 function secretFound(){
-  $(this).addClass('.found');
-  $(this).removeClass('.secret');
+  $(this).addClass('found');
+  $(this).removeClass('secret');
   secretsFound++;
   $(this).off('mouseover');
 }
