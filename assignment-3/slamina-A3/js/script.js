@@ -119,6 +119,7 @@ let animals = [
   "parakeet",
   "parrot",
   "pig",
+  "pippin",
   "platypus",
   "polar bear",
   "porcupine",
@@ -165,9 +166,13 @@ let $correctButton;
 // We also track the set of buttons
 let buttons = [];
 // How many possible answers there are per round
-const NUM_OPTIONS = 5;
+const NUM_options = 5;
 // The player can only repeat the word once
 let repeat = false;
+// Initiate a score board
+var score = 0;
+let $score;
+
 // Get setup!
 $(document).ready(setup);
 
@@ -191,6 +196,7 @@ function setup() {
     // Make annyang listen
     annyang.start();
   }
+$('#score').text(score);
 }
 
 // newRound()
@@ -200,8 +206,8 @@ function setup() {
 function newRound() {
   // We empty the buttons array for the new round
   buttons = [];
-  // Loop for each option we'll offter
-  for (let i = 0; i < NUM_OPTIONS; i++) {
+  // Loop for each options we'll offter
+  for (let i = 0; i < NUM_options; i++) {
     // Choose the answer text randomly from the animals array
     let answer = getRandomElement(animals);
     // Add a button with this label
@@ -216,6 +222,7 @@ function newRound() {
 
   // Reset the repeat function
   repeat = false;
+  $('#score').text(score);
 }
 
 // sayBackwards(text)
@@ -262,7 +269,7 @@ function addButton(label) {
   // Listen for a click on the button which means the user has guessed
   $button.on('click', handleGuess);
   // Finally, add the button to the page so we can see it
-  $('body').append($button);
+  $('#buttons').append($button);
   // Return the button
   return $button;
 }
@@ -278,6 +285,8 @@ function handleGuess() {
   if ($(this).text() === $correctButton.text()) {
     // Remove all the buttons
     $('.guess').remove();
+    // Add point to the score
+    score++;
     // Start a new round
     setTimeout(newRound, 1000);
   }
@@ -287,6 +296,8 @@ function handleGuess() {
     // And say the correct animal again to "help" them
     sayBackwards($correctButton.text());
     console.log($correctButton);
+    score = 0;
+    $('#score').text(score);
   }
 }
 
@@ -307,24 +318,26 @@ function givingUp() {
   $('.guess').effect('highlight');
   // Start a new round
   setTimeout(newRound, 1000);
+  // Reset the score
+  score = 0;
 }
 
 // repeatSlamina()
 //
 // Repeat the word the player has to guess
 function repeatSlamina() {
+  // Set some random numbers for the voice's pitch and rate parameters for a bit of fun
+  let options = {
+    pitch: Math.random(),
+    rate: Math.random()
+  };
   if (repeat === true){
-    responsiveVoice.speak("Only once");
+    responsiveVoice.speak("Only once", narrator, options);
     // Repeat the correct answer
     sayBackwards($correctButton.text());
     repeat = true;
   } else {
-    // Set some random numbers for the voice's pitch and rate parameters for a bit of fun
-    let options = {
-      pitch: Math.random(),
-      rate: Math.random()
-    };
-    responsiveVoice.speak("You should have listened", narrator, option);
+    responsiveVoice.speak("You should have listened", narrator, options);
   }
 }
 
@@ -332,5 +345,25 @@ function repeatSlamina() {
 //
 // If the player use voice to guess the answer
 function annyGuess(slamina) {
-  
+  if (slamina === $correctButton.text()){
+    // Remove all the buttons
+    $('.guess').remove();
+    // Add point
+    score++;
+    // Start a new round
+    setTimeout(newRound, 1000);
+  } else {
+    // Set some random numbers for the voice's pitch and rate parameters for a bit of fun
+    let options = {
+      pitch: Math.random(),
+      rate: Math.random()
+    };
+    // Shake the answers
+    $('.guess').effect('shake');
+    // Insult the player to try again
+    responsiveVoice.speak("At least you tried", narrator, options);
+    // Reset the score
+    score = 0;
+    $('#score').text(score);
+  }
 }
