@@ -7,5 +7,11 @@ body {
 #click-to-begin {
   font-size: 2em;
   font-weight: bold;
-  text-align: center; 
+  text-align: center;
+}
+
+#correctAnswer {
+  font-size: 10px;
+  font-style: italic;
+  font-family: fantasy;
 }

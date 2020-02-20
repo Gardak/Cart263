@@ -158,13 +158,16 @@ let animals = [
   "zebra"
 ];
 
+// Set the voice of the narrator
+let narrator = 'Finnish Male';
 // We need to track the correct button for each round
 let $correctButton;
 // We also track the set of buttons
 let buttons = [];
 // How many possible answers there are per round
 const NUM_OPTIONS = 5;
-
+// The player can only repeat the word once
+let repeat = false;
 // Get setup!
 $(document).ready(setup);
 
@@ -173,6 +176,21 @@ $(document).ready(setup);
 // We just start a new round right away!
 function setup() {
   newRound();
+
+  // Make sure annyang works
+  if (annyang){
+    var commands = {
+      'Say it again': repeatSlamina,
+      'I think it is :slamina': annyGuess,
+      "I think it's :slamina": annyGuess,
+      'I give up': givingUp
+    };
+
+    // Add the commands to annyang
+    annyang.addCommands(commands);
+    // Make annyang listen
+    annyang.start();
+  }
 }
 
 // newRound()
@@ -195,6 +213,9 @@ function newRound() {
   $correctButton = getRandomElement(buttons);
   // Say the label (text) on this button
   sayBackwards($correctButton.text());
+
+  // Reset the repeat function
+  repeat = false;
 }
 
 // sayBackwards(text)
@@ -222,7 +243,7 @@ function sayBackwards(text) {
 
   // Use ResponsiveVoice to speak the string we generated, with UK English Male voice
   // and the options we just specified.
-  responsiveVoice.speak(backwardsText, 'UK English Male', options);
+  responsiveVoice.speak(backwardsText, narrator, options);
 }
 
 // addButton(label)
@@ -265,6 +286,7 @@ function handleGuess() {
     $(this).effect('shake');
     // And say the correct animal again to "help" them
     sayBackwards($correctButton.text());
+    console.log($correctButton);
   }
 }
 
@@ -274,4 +296,41 @@ function handleGuess() {
 function getRandomElement(array) {
   let element = array[Math.floor(Math.random() * array.length)];
   return element;
+}
+
+// givingUp()
+//
+// Highlights the correct answer and starts a new round
+function givingUp() {
+  $('.guess').addAttribute('class','correctAnswer')
+  // Make the correct answer change color
+  $('.guess').effect('highlight');
+  // Start a new round
+  setTimeout(newRound, 1000);
+}
+
+// repeatSlamina()
+//
+// Repeat the word the player has to guess
+function repeatSlamina() {
+  if (repeat === true){
+    responsiveVoice.speak("Only once");
+    // Repeat the correct answer
+    sayBackwards($correctButton.text());
+    repeat = true;
+  } else {
+    // Set some random numbers for the voice's pitch and rate parameters for a bit of fun
+    let options = {
+      pitch: Math.random(),
+      rate: Math.random()
+    };
+    responsiveVoice.speak("You should have listened", narrator, option);
+  }
+}
+
+// annyGuess
+//
+// If the player use voice to guess the answer
+function annyGuess(slamina) {
+  
 }
