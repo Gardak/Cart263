@@ -39,17 +39,17 @@ function gameplay() {
     }
 
   } else if (gameState === "game") {
-
-    pet.display();
-    pet.manageStats();
-    if (keyIsDown(fKey)){
-      pet.feed();
-    } else if (keyIsDown(dKey)) {
-      pet.drink();
-    } else if (keyIsDown(cKey)) {
-      pet.clean();
+    if(pet.stage === 1){
+      pet.display();
+      pet.manageStats();
+      if (keyIsDown(fKey)){
+        pet.feed();
+      } else if (keyIsDown(dKey)) {
+        pet.drink();
+      } else if (keyIsDown(cKey)) {
+        pet.clean();
+      }
     }
-
   } else if (gameState === "gameOver") {
     gameOverScreen();
     if (keyIsDown(spaceBar)){

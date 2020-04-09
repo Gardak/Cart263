@@ -19,23 +19,26 @@ class Pet{
     this.statDrain = 1;
     this.statMaxDrain = 3;
 
-    this.evolution = 0;
+    this.stage = 1;
+    this.growth = 0;
 
     this.petImg = loadImage('assets/images/chick.png')
     this.petChirpImg = loadImage('assets/images/chick_chirp.png')
 
   }
 
+  // manageStats()
+  // Used to drain the stats of the pet
   manageStats() {
-    if (this.hunger > 0){
+      if (this.hunger >= 0){
       this.hunger -= statDrain;
     }
 
-    if (this.thirst > 0){
+    if (this.thirst >= 0){
       this.thirst -= statDrain;
     }
 
-    if (this.cleanliness > 0){
+    if (this.cleanliness >= 0){
       this.cleanliness -= statDrain;
     }
 
@@ -56,6 +59,13 @@ class Pet{
 
   clean() {
     this.cleanliness += this.clean;
+  }
+
+  evolution() {
+    if (this.growth >= 100){
+      this.stage += 1;
+      this.growth = 0;
+    }
   }
 
   display() {
