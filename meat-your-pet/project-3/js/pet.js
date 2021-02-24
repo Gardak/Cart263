@@ -1,5 +1,5 @@
 class Pet{
-  constructor(x,y){
+  constructor(x,y,windowWidth,windowHeight){
 
     this.x = x;
     this.y = y;
@@ -22,8 +22,8 @@ class Pet{
     this.stage = 1;
     this.growth = 0;
 
-    this.petImg = loadImage('assets/images/chick.png')
-    this.petChirpImg = loadImage('assets/images/chick_chirp.png')
+    this.chickImg = loadImage('assets/images/chick.png')
+    this.chickChirpImg = loadImage('assets/images/chick_chirp.png')
 
   }
 
@@ -70,7 +70,10 @@ class Pet{
 
   display() {
 
-
+    push();
+    rectMode(CENTER);
+    image(chickImg,x,y);
+    pop();
 
     this.thirstBar = map(this.thirst, 0, this.maxThirst, 0, width /5);
     this.hungerBar = map(this.hunger, 0, this.maxHunger, 0, width /5);

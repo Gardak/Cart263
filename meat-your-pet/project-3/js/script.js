@@ -15,31 +15,37 @@ let fKey = 70;
 let dKey = 68;
 let cKey = 67;
 
+function preload() {
+
+  // music = loadSound("assets/sounds/epic.mp3")
+  background = loadImage('assets/images/farm.jpg');
+
+}
+
 // setup()
 //
 // Sets up the game
 function setup() {
-  createCanvas(500, 500);
 
-  // Setup the music
-  music = loadSound("assets/sounds/epic.mp3")
-
+  createCanvas(windowWidth, windowHeight);
+   background( 255, 0, 0);
   imageMode(CENTER)
-  pet = new Pet(width/2 , height / 2);
-  background = loadImage('assets/images/________');
+  pet = new Pet(windowWidth/2 , windowHeight / 2, windowWidth, windowHeight);
 }
 
 
-function gameplay() {
+function draw() {
+  image(background,0,0);
+
   if (gameState === "intro"){
 
     introScreen();
+
     if (keyIsDown(spaceBar)){
         gameState = "game";
     }
 
   } else if (gameState === "game") {
-    if(pet.stage === 1){
       pet.display();
       pet.manageStats();
       if (keyIsDown(fKey)){
@@ -49,7 +55,6 @@ function gameplay() {
       } else if (keyIsDown(cKey)) {
         pet.clean();
       }
-    }
   } else if (gameState === "gameOver") {
     gameOverScreen();
     if (keyIsDown(spaceBar)){
@@ -58,7 +63,7 @@ function gameplay() {
   }
 }
 
-introScreen() {
+function introScreen() {
   textAlign(CENTER, CENTER);
 
       let title = "Meet your pet\n";
@@ -95,7 +100,7 @@ introScreen() {
 
 }
 
-gameOverScreen() {
+function gameOverScreen() {
   textAlign(CENTER, CENTER);
 
       let title = "Poor pet\n";
