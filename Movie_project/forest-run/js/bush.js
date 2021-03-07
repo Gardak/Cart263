@@ -1,19 +1,17 @@
-
-// grass visual
+// Side bush visual
 
 class Bush {
 
-  constructor(x,y) {
+  constructor(x, y) {
 
     // starting Position
     this.x = x;
     this.y = y;
 
     // Velocity and speed
-    this.vx = windowWidth/100;
-    this.vy = windowHeight/100;
-
-    this.dmg = 1;
+    this.speed = 130;
+    this.vx = windowWidth / this.speed;
+    this.vy = windowHeight / this.speed;
 
     // Display properties
     this.size = 200;
@@ -21,24 +19,18 @@ class Bush {
   }
 
 
-    handleLoop() {
-      // Off the left or right
-      if (this.x < -125 || this.y >= windowHeight-50) {
-        this.x = this.x + windowWidth*0.5;
-        this.y = this.y - windowHeight*0.5;
-      }
+  handleLoop() {
+    // respawn them outside the screen to loop them
+    if (this.x < -125 || this.y >= windowHeight - 50) {
+      this.x = this.x + windowWidth * 0.5;
+      this.y = this.y - windowHeight * 0.5;
     }
-
-    // Damage the player by touching him
-      hurtPlayer(player){
-        let d = dist(this.x, this.y, player.x, player.y);
-          if ( d < this.size/2 + player.size/2) {
-            player.health -= this.dmg;
-            console.log('works');
-          }
-      }
+  }
 
   move() {
+    //Adapt to the screen to keep perspective
+    this.vx = windowWidth / this.speed;
+    this.vy = windowHeight / this.speed;
 
     this.handleLoop();
     // Update position
@@ -48,11 +40,11 @@ class Bush {
 
 
 
-display() {
+  display() {
     push();
 
-      rectMode(CENTER);
-      image(this.img, this.x, this.y, this.size, this.size);
+    rectMode(CENTER);
+    image(this.img, this.x, this.y, this.size, this.size);
 
     pop();
   }

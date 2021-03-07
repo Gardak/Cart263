@@ -1,5 +1,3 @@
-
-
 // PLayer's speeder bike
 
 class SpeederBike {
@@ -14,10 +12,12 @@ class SpeederBike {
     this.spawn = 100;
     this.vx = 0;
     this.vy = 0;
-    this.speed = 5;
+    this.speed = 175;
+    this.speedX = windowWidth / this.speed;
+    this.speedY = windowHeight / this.speed;
 
     // Health properties
-    this.maxHealth = 20;
+    this.maxHealth = 1;
     this.health = this.maxHealth;
 
     // Input properties
@@ -27,58 +27,47 @@ class SpeederBike {
     this.rightKey = 68;
 
     // Display properties
-    this.healthBar = 0;
-    this.healthFill =0;
-    this.sizeX = 100;
-    this.sizeY = 50;
-    this.img = loadImage('assets/images/speeder_bike.jpg');
+    this.sizeX = 300;
+    this.sizeY = 150;
+    this.img = loadImage('assets/images/speeder_bike.png');
 
-    this.timer = 2;
+    //Bottom screen icon properties
+    this.faceX = 0;
+    this.faceY = windowHeight - 55;
+    this.faceSize = 40;
+    this.face = loadImage('assets/images/helmet.png');
+
+    //timer setup
+    this.maxTimer = 5400;
+    this.timer = this.maxTimer;
+    this.timerTick = 1;
   }
 
 
   handleMovement() {
-    // Horizontal movement
+    //move North-West
     if (keyIsDown(this.leftKey)) {
-      this.vx = -this.speed;
-      this.vy = -this.speed;
-    }
-    else if (keyIsDown(this.rightKey)) {
-      this.vx = +this.speed;
-      this.vy = +this.speed;
-        }
-        else if (keyIsDown(this.upKey)) {
-      this.vx = +this.speed;
-      this.vy = -this.speed;
-    }
-    else if (keyIsDown(this.downKey)) {
-      this.vx = -this.speed;
-      this.vy = +this.speed;
-    }
-    else {
+      this.vx = -this.speedX;
+      this.vy = -this.speedY;
+    //move South-East
+    } else if (keyIsDown(this.rightKey)) {
+      this.vx = +this.speedX;
+      this.vy = +this.speedY;
+      //move North-East
+    } else if (keyIsDown(this.upKey)) {
+      this.vx = +this.speedX;
+      this.vy = -this.speedY;
+      //move South-West
+    } else if (keyIsDown(this.downKey)) {
+      this.vx = -this.speedX;
+      this.vy = +this.speedY;
+      //stay in place if no input
+    } else {
       this.vx = 0;
       this.vy = 0;
     }
   }
 
-    handleCollision() {
-      // Off the left or right
-      if (this.x > width - this.size*2) {
-        this.x = width - this.size*2;
-      }
-      else if (this.x < 0) {
-        this.x = 0;
-      }
-
-      // Off the top or bottom
-      if (this.y > height - this.size*2) {
-        this.y = height - this.size*2;
-      }
-      else if (this.y < 0) {
-        this.y = 0;
-      }
-
-    }
 
   move() {
 
@@ -88,30 +77,30 @@ class SpeederBike {
     this.x += this.vx;
     this.y += this.vy;
 
-    // Handle wrapping
-    this.handleCollision();
-    // console.log('move');
 
-    console.log(this.health);
   }
 
 
 
-display() {
-  push();
-
+  display() {
     rectMode(CENTER);
     image(this.img, this.x, this.y, this.sizeX, this.sizeY);
+  }
 
-pop();
-    this.healthBar = map(this.health, 0, this.maxHealth, 0, width /2);
-    this.healthFill = map(this.health, 0, 100, 255, 0);
 
+  displayTimer() {
+    //update timer
+    this.timer = this.timer - this.timerTick;
+    //display timer
     push();
-      fill(this.healthFill, 100, 30);
-      rectMode(CENTER);
-      rect(width / 2, height - 40, this.healthBar, 20);
+    rectMode(CENTER);
+    fill(150);
+    rect(width / 2, height - 40, width * 2 / 3, 20)
     pop();
+    //update icon on the timer bar
+    this.faceX = map(this.timer, 0, this.maxTimer, (windowWidth * 5 / 6), windowWidth / 6)
+    rectMode(CENTER);
+    image(this.face, this.faceX, this.faceY, this.faceSize, this.faceSize);
   }
 
 }
